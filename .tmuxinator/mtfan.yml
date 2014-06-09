@@ -1,0 +1,31 @@
+# ~/.tmuxinator/mtfan.yml
+
+name: mtfan
+root: ~/Development/gextech/mt-fan-api/
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+pre_window: setjava 1.7.0
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+windows:
+  - editor: vim
+  - tests:
+  - grails: grails
+  - data:
+      layout: main-vertical
+      panes:
+          - postgres -D /usr/local/var/postgres
+          - redis-server /usr/local/etc/redis.conf 
+          - elasticsearch --config=/usr/local/opt/elasticsearch/config/elasticsearch.yml
+  - messaging: rabbitmq-server
